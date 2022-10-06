@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 import math
 from wechatpy import WeChatClient
 from wechatpy.client.api import WeChatMessage, WeChatTemplate
@@ -6,6 +6,15 @@ import requests
 import os
 import random
 
+utc_now = datetime.utcnow().replace(tzinfo=timezone.utc)
+SHA_TZ = timezone(
+    timedelta(hours=8),
+    name='Asia/Shanghai',
+)
+# 北京时间
+beijing_now = utc_now.astimezone(SHA_TZ)
+fmt = '%Y-%m-%d %H:%M:%S'
+now_fmt =beijing_now.strftime(fmt)
 today = datetime.now()
 print(type(today),today)
 start_date = os.environ['START_DATE']
@@ -53,7 +62,7 @@ wm = WeChatMessage(client)
 t = datetime.today()
 y ,m, d = t.year, t.month, t.day
 weekday = date(y,m,d).strftime("%A")
-wea = get_weather()
-data = {"city":{"value":city},"date":{"value":str(today).split()[0]},"week_day":{"value":str(weekday)},"weather":{"value":wea['weather']},"temperature":{"value": math.floor(weather['temp'])},"humidity":{"value":wea['humidity']},"lowest":{"value":math.floor(wea['low'])},"highest":{"value":math.floor(wea['high'])},"air_quality":{"value":wea['airQuality']},"wind":{"value":wea['windLevel']},"air_data":{"value":wea['airData']},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
+wea = get_weather()   #str(today).split()[0]
+data = {"city":{"value":city},"date":{"value":now_fmt},"week_day":{"value":str(weekday)},"weather":{"value":wea['weather']},"temperature":{"value": math.floor(weather['temp'])},"humidity":{"value":wea['humidity']},"lowest":{"value":math.floor(wea['low'])},"highest":{"value":math.floor(wea['high'])},"air_quality":{"value":wea['airQuality']},"wind":{"value":wea['windLevel']},"air_data":{"value":wea['airData']},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
