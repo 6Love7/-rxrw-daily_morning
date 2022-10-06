@@ -50,7 +50,10 @@ client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
 #wea, temperature = get_weather()
+t = datetime.today()
+y ,m, d = t.year, t.month, t.day
+weekday = date(y,m,d).strftime("%A")
 wea = get_weather()
-data = {"city":{"value":city},"date":{"value":str(today).split()[0]},"weather":{"value":wea['weather']},"temperature":{"value":wea['temp']},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
+data = {"city":{"value":city},"date":{"value":str(today).split()[0]},"week_day":{"value":str(weekday)},"weather":{"value":wea['weather']},"temperature":{"value":wea['temp']},"humidity":{"value":wea['humidity']},"lowest":{"value":wea['low']},"highest":{"value":wea['high']},"air_quality":{"value":wea['airQuality']},"wind":{"value":wea['windLevel']},"air_data":{"value":wea['airData']},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
