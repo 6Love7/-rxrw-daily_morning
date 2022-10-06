@@ -63,6 +63,6 @@ t = datetime.today()
 y ,m, d = t.year, t.month, t.day
 weekday = date(y,m,d).strftime("%A")
 wea = get_weather()   #str(today).split()[0]
-data = {"city":{"value":city},"date":{"value":now_fmt},"week_day":{"value":str(weekday)},"weather":{"value":wea['weather']},"temperature":{"value": math.floor(weather['temp'])},"humidity":{"value":wea['humidity']},"lowest":{"value":math.floor(wea['low'])},"highest":{"value":math.floor(wea['high'])},"air_quality":{"value":wea['airQuality']},"wind":{"value":wea['windLevel']},"air_data":{"value":wea['airData']},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
+data = {"city":{"value":city},"date":{"value":now_fmt},"week_day":{"value":str(weekday)},"weather":{"value":wea['weather']},"temperature":{"value": math.floor(wea['temp'])},"humidity":{"value":wea['humidity']},"lowest":{"value":math.floor(wea['low'])},"highest":{"value":math.floor(wea['high'])},"air_quality":{"value":wea['airQuality']},"wind":{"value":wea['windLevel']},"air_data":{"value":wea['airData']},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
