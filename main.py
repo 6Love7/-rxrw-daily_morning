@@ -12,6 +12,7 @@ today = datetime.strptime(str(nowtime.date()), "%Y-%m-%d")  # 今天的日期
 start_date = os.getenv('START_DATE')
 city = os.getenv('CITY')
 birthday = os.getenv('BIRTHDAY')
+loveday = os.getenv('LOVEDAY')
 
 app_id = os.getenv('APP_ID')
 app_secret = os.getenv('APP_SECRET')
@@ -71,6 +72,15 @@ def get_birthday_left():
         next = next.replace(year=next.year + 1)
     return (next - today).days
 
+# 纪念日倒计时
+def get_loveday_left():
+    if loveday is None:
+        print('没有设置 LOVEDAY')
+        return 0
+    next = datetime.strptime(str(today.year) + "-" + loveday, "%Y-%m-%d")
+    if next < nowtime:
+        next = next.replace(year=next.year + 1)
+    return (next - today).days
 
 # 彩虹屁 接口不稳定，所以失败的话会重新调用，直到成功
 def get_words():
@@ -151,6 +161,10 @@ data = {
     },
     "birthday_left": {
         "value": get_birthday_left(),
+        "color": get_random_color()
+    },
+    "loveday_left": {
+        "value": get_loveday_left(),
         "color": get_random_color()
     },
     "words": {
