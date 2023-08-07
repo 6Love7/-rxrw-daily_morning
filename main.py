@@ -13,6 +13,7 @@ start_date = os.getenv('START_DATE')
 city = os.getenv('CITY')
 birthday = os.getenv('BIRTHDAY')
 loveday = os.getenv('LOVEDAY')
+weddingdate = os.getenv('WEDDINGDATE')
 
 app_id = os.getenv('APP_ID')
 app_secret = os.getenv('APP_SECRET')
@@ -84,6 +85,16 @@ def get_loveday_left():
         next = next.replace(year=next.year + 1)
     return (next - today).days
 
+# 纪念日倒计时
+def get_wedding_left():
+    if loveday is None:
+        print('没有设置 weddingDAY')
+        return 0
+    next = datetime.strptime(str(today.year) + "-" + weddingdate, "%Y-%m-%d")
+    if next < nowtime:
+        next = next.replace(year=next.year + 1)
+    return (next - today).days
+
 # 彩虹屁 接口不稳定，所以失败的话会重新调用，直到成功
 def get_words():
     words = requests.get("https://api.shadiao.pro/chp")
@@ -133,30 +144,34 @@ data = {
         "value": weather['humidity'],
         "color": get_random_color()
     },
-    "wind": {
-        "value": weather['wind'],
+    "winddirection": {
+        "value": weather['winddirection'],
         "color": get_random_color()
     },
-    "air_data": {
-        "value": weather['airData'],
+    "windpower": {
+        "value": weather['windpower'],
         "color": get_random_color()
     },
-    "air_quality": {
-        "value": weather['airQuality'],
-        "color": get_random_color()
-    },
+    # "air_data": {
+    #     "value": weather['airData'],
+    #     "color": get_random_color()
+    # },
+    # "air_quality": {
+    #     "value": weather['airQuality'],
+    #     "color": get_random_color()
+    # },
     "temperature": {
-        "value": math.floor(weather['temp']),
+        "value": math.floor(weather['temperature']),
         "color": get_random_color()
     },
-    "highest": {
-        "value": math.floor(weather['high']),
-        "color": get_random_color()
-    },
-    "lowest": {
-        "value": math.floor(weather['low']),
-        "color": get_random_color()
-    },
+    # "highest": {
+    #     "value": math.floor(weather['high']),
+    #     "color": get_random_color()
+    # },
+    # "lowest": {
+    #     "value": math.floor(weather['low']),
+    #     "color": get_random_color()
+    # },
     "love_days": {
         "value": get_memorial_days_count(),
         "color": get_random_color()
@@ -167,6 +182,10 @@ data = {
     },
     "loveday_left": {
         "value": get_loveday_left(),
+        "color": get_random_color()
+    },
+    "wedding_left": {
+        "value": get_wedding_left(),
         "color": get_random_color()
     },
     "words": {
