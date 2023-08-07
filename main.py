@@ -38,11 +38,13 @@ def get_weather():
     if city is None:
         print('请设置城市')
         return None
-    url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
+    # url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
+    url = "https://restapi.amap.com/v3/weather/weatherInfo?city=120111&key=<a3a0c4c2e51dd0b735db66a8ce11b791>"
     res = requests.get(url).json()
     if res is None:
         return None
-    weather = res['data']['list'][0]
+    # weather = res['data']['list'][0]
+    weather = res['lives'][0]
     return weather
 
 
