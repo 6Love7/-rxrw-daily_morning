@@ -88,9 +88,12 @@ def get_loveday_left():
 
 # 纪念日倒计时
 def get_wedding_left():
-    if loveday is None:
+    if weddingdate is None:
         print('没有设置 weddingDAY')
         return 0
+    print(weddingdate)
+    print(today)
+    print(today.year)
     next = datetime.strptime(str(today.year) + "-" + weddingdate, "%Y-%m-%d")
     if next < nowtime:
         next = next.replace(year=next.year + 1)
